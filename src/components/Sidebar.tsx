@@ -87,7 +87,7 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedItem, onItemSelect }) => {
   return (
     <div className="w-72 bg-gray-50 border-r border-gray-200 h-screen flex flex-col">
       <div className="p-4 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900">Legal Index</h2>
+        <h2 className="text-lg font-semibold text-gray-900">LAWGIC</h2>
       </div>
       
       <div className="flex-1 overflow-y-auto">
@@ -135,6 +135,16 @@ const Sidebar: React.FC<SidebarProps> = ({ selectedItem, onItemSelect }) => {
             </div>
           ))}
         </div>
+      </div>
+
+      {/* Bottom buttons */}
+      <div className="p-4 border-t border-gray-200 space-y-3">
+        <button className="w-full px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
+          Find a Lawyer
+        </button>
+        <button className="w-full px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
+          Explore Packages
+        </button>
       </div>
     </div>
   );

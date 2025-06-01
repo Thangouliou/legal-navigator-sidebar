@@ -22,10 +22,10 @@ const MainContent: React.FC<MainContentProps> = ({ selectedItem, selectedItemNam
           </div>
         </div>
 
-        {/* Main split content area */}
-        <div className="flex-1 flex">
-          {/* Left side - Document area */}
-          <div className="flex-1 flex items-center justify-center border-r border-gray-200">
+        {/* Main content area split vertically */}
+        <div className="flex-1 flex flex-col">
+          {/* Top half - Document area */}
+          <div className="flex-1 flex items-center justify-center border-b border-gray-200">
             <div className="text-center">
               <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">
@@ -37,7 +37,7 @@ const MainContent: React.FC<MainContentProps> = ({ selectedItem, selectedItemNam
             </div>
           </div>
 
-          {/* Right side - Build area */}
+          {/* Bottom half - Build area */}
           <div className="flex-1 flex items-center justify-center bg-gray-50">
             <div className="text-center">
               <div className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
@@ -49,21 +49,6 @@ const MainContent: React.FC<MainContentProps> = ({ selectedItem, selectedItemNam
               <p className="text-gray-500 max-w-sm">
                 Select a document to start building your legal position.
               </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom section - LAWGIC branding and buttons */}
-        <div className="border-t border-gray-200 bg-white p-6">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">LAWGIC</h2>
-            <div className="flex justify-center space-x-4">
-              <button className="px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors">
-                Find a Lawyer
-              </button>
-              <button className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
-                Explore Packages
-              </button>
             </div>
           </div>
         </div>
@@ -106,11 +91,11 @@ const MainContent: React.FC<MainContentProps> = ({ selectedItem, selectedItemNam
         </div>
       </div>
       
-      {/* Main split content area */}
-      <div className="flex-1 flex">
-        {/* Left side - Document content */}
-        <div className="flex-1 p-6 border-r border-gray-200">
-          <div className="bg-gray-50 rounded-lg p-8">
+      {/* Main content area split vertically */}
+      <div className="flex-1 flex flex-col">
+        {/* Top half - Document content */}
+        <div className="flex-1 p-6 border-b border-gray-200">
+          <div className="bg-gray-50 rounded-lg p-8 h-full">
             <div className="max-w-4xl">
               <h2 className="text-lg font-medium text-gray-900 mb-4">Document Content</h2>
               <div className="prose prose-gray max-w-none">
@@ -133,7 +118,7 @@ const MainContent: React.FC<MainContentProps> = ({ selectedItem, selectedItemNam
           </div>
         </div>
 
-        {/* Right side - Build content */}
+        {/* Bottom half - Build content */}
         <div className="flex-1 p-6 bg-gray-50">
           <div className="bg-white rounded-lg p-8 h-full">
             <h2 className="text-lg font-medium text-gray-900 mb-4">Build Position</h2>
@@ -148,21 +133,6 @@ const MainContent: React.FC<MainContentProps> = ({ selectedItem, selectedItemNam
                 </p>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom section - LAWGIC branding and buttons */}
-      <div className="border-t border-gray-200 bg-white p-6">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">LAWGIC</h2>
-          <div className="flex justify-center space-x-4">
-            <button className="px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors">
-              Find a Lawyer
-            </button>
-            <button className="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
-              Explore Packages
-            </button>
           </div>
         </div>
       </div>
