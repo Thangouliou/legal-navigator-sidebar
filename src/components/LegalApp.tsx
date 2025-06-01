@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import Chat from './Chat';
 import Sidebar from './Sidebar';
 import MainContent from './MainContent';
 
@@ -15,6 +16,7 @@ const LegalApp: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="flex h-screen">
+        <Chat />
         <Sidebar 
           selectedItem={selectedItem} 
           onItemSelect={handleItemSelect} 

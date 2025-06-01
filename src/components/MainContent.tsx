@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { FileText, Clock, User } from 'lucide-react';
+import { Scale } from 'lucide-react';
+import Builds from './Builds';
 
 interface MainContentProps {
   selectedItem: string | null;
@@ -25,7 +27,17 @@ const MainContent: React.FC<MainContentProps> = ({ selectedItem, selectedItemNam
   }
 
   return (
-    <div className="flex-1 bg-white">
+    <div className="flex-1 bg-white flex flex-col">
+      {/* Header with Side 1 // Side 2 */}
+      <div className="border-b border-gray-200 px-6 py-3 bg-gray-50">
+        <div className="flex items-center justify-center">
+          <span className="text-sm font-medium text-gray-700">Side 1</span>
+          <Scale className="w-5 h-5 mx-4 text-gray-600" />
+          <span className="text-sm font-medium text-gray-700">Side 2</span>
+        </div>
+      </div>
+
+      {/* Document header */}
       <div className="border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
@@ -49,7 +61,8 @@ const MainContent: React.FC<MainContentProps> = ({ selectedItem, selectedItemNam
         </div>
       </div>
       
-      <div className="p-6">
+      {/* Main content area */}
+      <div className="flex-1 p-6">
         <div className="bg-gray-50 rounded-lg p-8">
           <div className="max-w-4xl">
             <h2 className="text-lg font-medium text-gray-900 mb-4">Document Content</h2>
@@ -77,6 +90,9 @@ const MainContent: React.FC<MainContentProps> = ({ selectedItem, selectedItemNam
           </div>
         </div>
       </div>
+
+      {/* Builds section */}
+      <Builds selectedItem={selectedItem} />
     </div>
   );
 };
