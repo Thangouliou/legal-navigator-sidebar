@@ -14,21 +14,24 @@ const LegalApp: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 relative">
+    <div className="min-h-screen bg-gray-100">
       <div className="flex h-screen">
+        {/* Left Sidebar - Legal Index */}
         <Sidebar 
           selectedItem={selectedItem} 
           onItemSelect={handleItemSelect} 
         />
+        
+        {/* Main Content Area */}
         <MainContent 
           selectedItem={selectedItem} 
           selectedItemName={selectedItemName} 
         />
-      </div>
-      
-      {/* Chat positioned at bottom right */}
-      <div className="fixed bottom-4 right-4 z-50">
-        <Chat />
+        
+        {/* Right Side Chat - Full Height */}
+        <div className="w-80 border-l border-gray-200 bg-white">
+          <Chat />
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Send, MessageCircle, X, Minus } from 'lucide-react';
+import { Send, MessageCircle } from 'lucide-react';
 
 interface ChatMessage {
   id: string;
@@ -19,8 +19,6 @@ const Chat: React.FC = () => {
     },
   ]);
   const [inputText, setInputText] = useState('');
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
 
   const handleSendMessage = () => {
     if (inputText.trim()) {
@@ -53,98 +51,55 @@ const Chat: React.FC = () => {
     }
   };
 
-  const toggleChat = () => {
-    if (isMinimized) {
-      setIsMinimized(false);
-    } else {
-      setIsExpanded(!isExpanded);
-    }
-  };
-
-  const minimizeChat = () => {
-    setIsMinimized(true);
-    setIsExpanded(false);
-  };
-
-  if (isMinimized) {
-    return (
-      <button
-        onClick={toggleChat}
-        className="bg-green-600 text-white p-3 rounded-full shadow-lg hover:bg-green-700 transition-colors"
-      >
-        <MessageCircle className="w-6 h-6" />
-      </button>
-    );
-  }
-
   return (
-    <div className={`bg-white border border-gray-200 rounded-lg shadow-lg transition-all duration-300 ${
-      isExpanded ? 'w-80 h-96' : 'w-80 h-16'
-    }`}>
+    <div className="h-full flex flex-col">
       {/* Chat Header */}
-      <div className="flex items-center justify-between p-3 border-b border-gray-200 bg-gray-50 rounded-t-lg">
+      <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50">
         <div className="flex items-center space-x-2">
-          <MessageCircle className="w-4 h-4 text-green-600" />
-          <h3 className="text-sm font-medium text-gray-900">Legal AI Assistant</h3>
-        </div>
-        <div className="flex space-x-1">
-          <button
-            onClick={minimizeChat}
-            className="p-1 text-gray-400 hover:text-gray-600 rounded"
-          >
-            <Minus className="w-4 h-4" />
-          </button>
-          <button
-            onClick={toggleChat}
-            className="p-1 text-gray-400 hover:text-gray-600 rounded"
-          >
-            {isExpanded ? <X className="w-4 h-4" /> : <MessageCircle className="w-4 h-4" />}
-          </button>
+          <MessageCircle className="w-5 h-5 text-green-600" />
+          <h3 className="text-sm font-medium text-gray-900">New chat</h3>
         </div>
       </div>
 
-      {/* Chat Content - only show when expanded */}
-      {isExpanded && (
-        <>
-          <div className="flex-1 overflow-y-auto p-3 space-y-3 h-64">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div
-                  className={`max-w-[80%] p-2 rounded-lg text-xs ${
-                    message.sender === 'user'
-                      ? 'bg-green-600 text-white'
-                      : 'bg-gray-100 text-gray-900'
-                  }`}
-                >
-                  {message.text}
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          <div className="p-3 border-t border-gray-200">
-            <div className="flex space-x-2">
-              <input
-                type="text"
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Ask about legal documents..."
-                className="flex-1 px-2 py-1 border border-gray-300 rounded text-xs focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-transparent"
-              />
-              <button
-                onClick={handleSendMessage}
-                className="px-2 py-1 bg-green-600 text-white rounded hover:bg-green-700 focus:outline-none focus:ring-1 focus:ring-green-500"
-              >
-                <Send className="w-3 h-3" />
-              </button>
+      {/* Messages Area */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {messages.map((message) => (
+          <div
+            key={message.id}
+            className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+          >
+            <div
+              className={`max-w-[80%] p-3 rounded-lg text-sm ${
+                message.sender === 'user'
+                  ? 'bg-green-600 text-white'
+                  : 'bg-gray-100 text-gray-900'
+              }`}
+            >
+              {message.text}
             </div>
           </div>
-        </>
-      )}
+        ))}
+      </div>
+      
+      {/* Input Area */}
+      <div className="p-4 border-t border-gray-200">
+        <div className="flex space-x-3">
+          <input
+            type="text"
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder="Plan, search, build anything..."
+            className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          />
+          <button
+            onClick={handleSendMessage}
+            className="px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
+            <Send className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
