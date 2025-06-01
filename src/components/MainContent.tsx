@@ -12,16 +12,30 @@ interface MainContentProps {
 const MainContent: React.FC<MainContentProps> = ({ selectedItem, selectedItemName }) => {
   if (!selectedItem) {
     return (
-      <div className="flex-1 flex items-center justify-center bg-white">
-        <div className="text-center">
-          <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            Welcome to Legal Index
-          </h3>
-          <p className="text-gray-500 max-w-sm">
-            Select a document or case from the sidebar to view its contents and start working.
-          </p>
+      <div className="flex-1 flex flex-col bg-white">
+        {/* Header with Side 1 // Side 2 */}
+        <div className="border-b border-gray-200 px-6 py-3 bg-gray-50">
+          <div className="flex items-center justify-center">
+            <span className="text-sm font-medium text-gray-700">Side 1</span>
+            <Scale className="w-5 h-5 mx-4 text-gray-600" />
+            <span className="text-sm font-medium text-gray-700">Side 2</span>
+          </div>
         </div>
+
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              Welcome to Legal Index
+            </h3>
+            <p className="text-gray-500 max-w-sm">
+              Select a document or case from the sidebar to view its contents and start working.
+            </p>
+          </div>
+        </div>
+
+        {/* Builds section */}
+        <Builds selectedItem={selectedItem} />
       </div>
     );
   }

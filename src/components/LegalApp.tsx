@@ -14,9 +14,8 @@ const LegalApp: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 relative">
       <div className="flex h-screen">
-        <Chat />
         <Sidebar 
           selectedItem={selectedItem} 
           onItemSelect={handleItemSelect} 
@@ -25,6 +24,11 @@ const LegalApp: React.FC = () => {
           selectedItem={selectedItem} 
           selectedItemName={selectedItemName} 
         />
+      </div>
+      
+      {/* Chat positioned at bottom right */}
+      <div className="fixed bottom-4 right-4 z-50">
+        <Chat />
       </div>
     </div>
   );
