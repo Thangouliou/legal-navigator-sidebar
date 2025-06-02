@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Scale, Plus, Send } from 'lucide-react';
 import { Button } from './ui/button';
+import Chat from './Chat';
 
 const DebateContent: React.FC = () => {
   const [questions, setQuestions] = useState<string[]>([
@@ -52,7 +53,7 @@ const DebateContent: React.FC = () => {
             </div>
           </div>
 
-          {/* Main Content Split */}
+          {/* Main Content */}
           <div className="flex-1 flex">
             {/* Left Side - Scale and Chats */}
             <div className="flex-1 flex flex-col">
@@ -71,14 +72,16 @@ const DebateContent: React.FC = () => {
                       }}
                     />
                     
-                    {/* Side Labels */}
-                    <div className="flex justify-between mt-4 px-8">
-                      <span className={`text-sm font-medium ${side1Score > side2Score ? 'text-green-600' : 'text-gray-600'}`}>
-                        Side 1
-                      </span>
-                      <span className={`text-sm font-medium ${side2Score > side1Score ? 'text-green-600' : 'text-gray-600'}`}>
-                        Side 2
-                      </span>
+                    {/* Percentages below scale */}
+                    <div className="flex justify-center items-center mt-6 space-x-8">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-green-600">{side1Score}%</div>
+                        <div className="text-sm text-gray-600">Side 1</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-blue-600">{side2Score}%</div>
+                        <div className="text-sm text-gray-600">Side 2</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -133,71 +136,78 @@ const DebateContent: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Side 2 Chat */}
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex flex-col">
-                    <h4 className="font-medium text-blue-800 mb-3">Side 2</h4>
-                    <div className="flex-1 space-y-2 overflow-y-auto">
-                      {side2Messages.map((message, index) => (
-                        <div key={index} className="bg-white p-2 rounded text-sm border border-blue-100">
-                          {message}
-                        </div>
-                      ))}
+                  {/* Side 2 Chat with Questions Panel above */}
+                  <div className="flex flex-col">
+                    {/* Questions Panel above Side 2 */}
+                    <div className="bg-white border border-gray-200 rounded-lg p-4 mb-4 h-64">
+                      <h4 className="text-sm font-medium text-gray-900 mb-3">Ερωτήσεις Debate</h4>
+                      
+                      {/* Add Question Form */}
+                      <div className="mb-4">
+                        <textarea
+                          value={newQuestion}
+                          onChange={(e) => setNewQuestion(e.target.value)}
+                          placeholder="Προσθήκη νέας ερώτησης..."
+                          className="w-full p-2 border border-gray-300 rounded text-xs resize-none focus:outline-none focus:ring-1 focus:ring-green-500"
+                          rows={2}
+                        />
+                        <Button 
+                          onClick={addQuestion}
+                          className="mt-2 w-full bg-green-600 hover:bg-green-700"
+                          size="sm"
+                        >
+                          <Plus className="w-3 h-3 mr-1" />
+                          Προσθήκη
+                        </Button>
+                      </div>
+
+                      {/* Questions List with scroll */}
+                      <div className="space-y-2 overflow-y-auto h-32">
+                        {questions.map((question, index) => (
+                          <div key={index} className="bg-gray-50 p-2 rounded border border-gray-200">
+                            <p className="text-xs text-gray-700 mb-1">{question}</p>
+                            <div className="flex space-x-1">
+                              <Button size="sm" variant="outline" className="text-xs px-2 py-1 h-auto">
+                                Side 1
+                              </Button>
+                              <Button size="sm" variant="outline" className="text-xs px-2 py-1 h-auto">
+                                Side 2
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                    <div className="mt-3 flex">
-                      <input 
-                        type="text" 
-                        placeholder="Type response..."
-                        className="flex-1 px-3 py-1 text-sm border border-blue-300 rounded-l focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      />
-                      <Button size="sm" className="rounded-l-none bg-blue-600 hover:bg-blue-700">
-                        <Send className="w-3 h-3" />
-                      </Button>
+
+                    {/* Side 2 Chat */}
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex flex-col flex-1">
+                      <h4 className="font-medium text-blue-800 mb-3">Side 2</h4>
+                      <div className="flex-1 space-y-2 overflow-y-auto">
+                        {side2Messages.map((message, index) => (
+                          <div key={index} className="bg-white p-2 rounded text-sm border border-blue-100">
+                            {message}
+                          </div>
+                        ))}
+                      </div>
+                      <div className="mt-3 flex">
+                        <input 
+                          type="text" 
+                          placeholder="Type response..."
+                          className="flex-1 px-3 py-1 text-sm border border-blue-300 rounded-l focus:outline-none focus:ring-1 focus:ring-blue-500"
+                        />
+                        <Button size="sm" className="rounded-l-none bg-blue-600 hover:bg-blue-700">
+                          <Send className="w-3 h-3" />
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Side - Questions Panel */}
-            <div className="w-80 bg-white border-l border-gray-200 p-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Ερωτήσεις Debate</h3>
-              
-              {/* Add Question Form */}
-              <div className="mb-6">
-                <textarea
-                  value={newQuestion}
-                  onChange={(e) => setNewQuestion(e.target.value)}
-                  placeholder="Προσθήκη νέας ερώτησης..."
-                  className="w-full p-3 border border-gray-300 rounded-lg text-sm resize-none focus:outline-none focus:ring-2 focus:ring-green-500"
-                  rows={3}
-                />
-                <Button 
-                  onClick={addQuestion}
-                  className="mt-2 w-full bg-green-600 hover:bg-green-700"
-                  size="sm"
-                >
-                  <Plus className="w-4 h-4 mr-2" />
-                  Προσθήκη Ερώτησης
-                </Button>
-              </div>
-
-              {/* Questions List */}
-              <div className="space-y-3">
-                <h4 className="font-medium text-gray-800">Ερωτήσεις για το Debate:</h4>
-                {questions.map((question, index) => (
-                  <div key={index} className="bg-gray-50 p-3 rounded-lg border border-gray-200">
-                    <p className="text-sm text-gray-700">{question}</p>
-                    <div className="mt-2 flex space-x-2">
-                      <Button size="sm" variant="outline" className="text-xs">
-                        Στείλε στο Side 1
-                      </Button>
-                      <Button size="sm" variant="outline" className="text-xs">
-                        Στείλε στο Side 2
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
+            {/* Right Side - Chat Panel */}
+            <div className="w-80 bg-white border-l border-gray-200">
+              <Chat />
             </div>
           </div>
         </div>
