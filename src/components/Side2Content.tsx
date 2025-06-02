@@ -12,7 +12,7 @@ interface Build {
 
 const Side2Content: React.FC = () => {
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
-  const [showNodeOptions, setShowNodeOptions] = useState(false);
+  const [nodeSelectedBuilds, setNodeSelectedBuilds] = useState<Record<string, string>>({});
 
   const nodeBuilds: Record<string, Build[]> = {
     '1': [
@@ -29,6 +29,17 @@ const Side2Content: React.FC = () => {
   };
 
   const getNodeColor = (nodeId: string) => {
+    const selectedBuildId = nodeSelectedBuilds[nodeId];
+    if (selectedBuildId) {
+      const builds = nodeBuilds[nodeId] || [];
+      const selectedBuild = builds.find(b => b.id === selectedBuildId);
+      if (selectedBuild) {
+        if (selectedBuild.quality === 'strong') return 'bg-green-600 hover:bg-green-700';
+        if (selectedBuild.quality === 'medium') return 'bg-yellow-600 hover:bg-yellow-700';
+        if (selectedBuild.quality === 'weak') return 'bg-red-600 hover:bg-red-700';
+      }
+    }
+
     const builds = nodeBuilds[nodeId] || [];
     const strongBuilds = builds.filter(b => b.quality === 'strong').length;
     const mediumBuilds = builds.filter(b => b.quality === 'medium').length;
@@ -40,14 +51,16 @@ const Side2Content: React.FC = () => {
   };
 
   const handleNodeClick = (nodeId: string) => {
-    setSelectedNode(nodeId);
-    setShowNodeOptions(true);
+    setSelectedNode(selectedNode === nodeId ? null : nodeId);
   };
 
-  const handleBuildClick = (buildId: string) => {
-    console.log(`Navigating to build: ${buildId}`);
-    setShowNodeOptions(false);
-    // Here you would navigate to the specific build
+  const handleBuildClick = (buildId: string, nodeId: string) => {
+    setNodeSelectedBuilds(prev => ({
+      ...prev,
+      [nodeId]: buildId
+    }));
+    setSelectedNode(null);
+    console.log(`Selected build: ${buildId} for node: ${nodeId}`);
   };
 
   return (
@@ -88,54 +101,105 @@ const Side2Content: React.FC = () => {
       {/* Main content area split vertically */}
       <div className="flex-1 flex flex-col">
         {/* Top half - Strategy Flow */}
-        <div className="flex-1 p-6 border-b border-gray-200 relative">
-          <div className="bg-gray-50 rounded-lg p-8 h-full">
-            <div className="max-w-4xl">
-              <h2 className="text-lg font-medium text-gray-900 mb-6">Side 2 Analysis</h2>
+        <div className="flex-1 p-6 border-b border-gray-200">
+          <div className="bg-gray-50 rounded-lg p-8 h-full flex items-center justify-center">
+            <div className="max-w-2xl w-full">
+              <h2 className="text-lg font-medium text-gray-900 mb-8 text-center">Side 2 Analysis</h2>
               
-              <div className="space-y-6">
-                <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-                  <h3 className="text-red-800 font-medium mb-2">Opposition Strategy</h3>
-                  <p className="text-red-700 text-sm">Counter-arguments and defensive positioning</p>
-                </div>
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                <h3 className="text-red-800 font-medium mb-2">Opposition Strategy</h3>
+                <p className="text-red-700 text-sm">Counter-arguments and defensive positioning</p>
+              </div>
 
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-4">
-                    <div className="flex flex-col items-center">
-                      <button 
-                        onClick={() => handleNodeClick('1')}
-                        className={`w-8 h-8 ${getNodeColor('1')} text-white rounded-full flex items-center justify-center text-sm font-medium transition-colors cursor-pointer`}
-                      >
-                        1
-                      </button>
-                      <div className="w-px h-16 bg-gray-300 mt-2"></div>
-                    </div>
+              {/* Strategy Steps - Centered */}
+              <div className="space-y-8">
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center space-x-4 w-full max-w-md">
+                    <button 
+                      onClick={() => handleNodeClick('1')}
+                      className={`w-10 h-10 ${getNodeColor('1')} text-white rounded-full flex items-center justify-center text-sm font-medium transition-colors cursor-pointer flex-shrink-0`}
+                    >
+                      1
+                    </button>
                     <div className="flex-1">
                       <h3 className="font-medium text-gray-900">Defensive Positions</h3>
                       <p className="text-gray-600 text-sm">Procedural challenges and evidence disputes</p>
                     </div>
                   </div>
-
-                  <div className="flex items-center space-x-4">
-                    <div className="flex flex-col items-center">
-                      <button 
-                        onClick={() => handleNodeClick('2')}
-                        className={`w-8 h-8 ${getNodeColor('2')} text-white rounded-full flex items-center justify-center text-sm font-medium transition-colors cursor-pointer`}
-                      >
-                        2
-                      </button>
-                      <div className="w-px h-16 bg-gray-300 mt-2"></div>
+                  
+                  {/* Build options for node 1 */}
+                  {selectedNode === '1' && (
+                    <div className="mt-4 w-full max-w-md space-y-2">
+                      {nodeBuilds['1']?.map((build) => (
+                        <button
+                          key={build.id}
+                          onClick={() => handleBuildClick(build.id, '1')}
+                          className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors bg-white"
+                        >
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <h4 className="font-medium text-gray-900 text-sm">{build.name}</h4>
+                              <p className="text-xs text-gray-600">{build.description}</p>
+                            </div>
+                            <div className={`w-3 h-3 rounded-full ${
+                              build.quality === 'strong' ? 'bg-green-500' :
+                              build.quality === 'medium' ? 'bg-yellow-500' : 'bg-red-500'
+                            }`}></div>
+                          </div>
+                        </button>
+                      ))}
                     </div>
+                  )}
+                  
+                  <div className="w-px h-12 bg-gray-300 mt-4"></div>
+                </div>
+
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center space-x-4 w-full max-w-md">
+                    <button 
+                      onClick={() => handleNodeClick('2')}
+                      className={`w-10 h-10 ${getNodeColor('2')} text-white rounded-full flex items-center justify-center text-sm font-medium transition-colors cursor-pointer flex-shrink-0`}
+                    >
+                      2
+                    </button>
                     <div className="flex-1">
                       <h3 className="font-medium text-gray-900">Counter-Strategy</h3>
                       <p className="text-gray-600 text-sm">Risk mitigation and alternative pathways</p>
                     </div>
                   </div>
+                  
+                  {/* Build options for node 2 */}
+                  {selectedNode === '2' && (
+                    <div className="mt-4 w-full max-w-md space-y-2">
+                      {nodeBuilds['2']?.map((build) => (
+                        <button
+                          key={build.id}
+                          onClick={() => handleBuildClick(build.id, '2')}
+                          className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors bg-white"
+                        >
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <h4 className="font-medium text-gray-900 text-sm">{build.name}</h4>
+                              <p className="text-xs text-gray-600">{build.description}</p>
+                            </div>
+                            <div className={`w-3 h-3 rounded-full ${
+                              build.quality === 'strong' ? 'bg-green-500' :
+                              build.quality === 'medium' ? 'bg-yellow-500' : 'bg-red-500'
+                            }`}></div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                  
+                  <div className="w-px h-12 bg-gray-300 mt-4"></div>
+                </div>
 
-                  <div className="flex items-center space-x-4">
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center space-x-4 w-full max-w-md">
                     <button 
                       onClick={() => handleNodeClick('3')}
-                      className={`w-8 h-8 ${getNodeColor('3')} text-white rounded-full flex items-center justify-center text-sm font-medium transition-colors cursor-pointer`}
+                      className={`w-10 h-10 ${getNodeColor('3')} text-white rounded-full flex items-center justify-center text-sm font-medium transition-colors cursor-pointer flex-shrink-0`}
                     >
                       3
                     </button>
@@ -144,47 +208,34 @@ const Side2Content: React.FC = () => {
                       <p className="text-gray-600 text-sm">Settlement considerations</p>
                     </div>
                   </div>
+                  
+                  {/* Build options for node 3 */}
+                  {selectedNode === '3' && (
+                    <div className="mt-4 w-full max-w-md space-y-2">
+                      {nodeBuilds['3']?.map((build) => (
+                        <button
+                          key={build.id}
+                          onClick={() => handleBuildClick(build.id, '3')}
+                          className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors bg-white"
+                        >
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <h4 className="font-medium text-gray-900 text-sm">{build.name}</h4>
+                              <p className="text-xs text-gray-600">{build.description}</p>
+                            </div>
+                            <div className={`w-3 h-3 rounded-full ${
+                              build.quality === 'strong' ? 'bg-green-500' :
+                              build.quality === 'medium' ? 'bg-yellow-500' : 'bg-red-500'
+                            }`}></div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
-
-          {/* Node Options Modal */}
-          {showNodeOptions && selectedNode && (
-            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
-              <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-                <h3 className="text-lg font-medium text-gray-900 mb-4">
-                  Node {selectedNode} Builds
-                </h3>
-                <div className="space-y-3">
-                  {nodeBuilds[selectedNode]?.map((build) => (
-                    <button
-                      key={build.id}
-                      onClick={() => handleBuildClick(build.id)}
-                      className="w-full text-left p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <h4 className="font-medium text-gray-900">{build.name}</h4>
-                          <p className="text-sm text-gray-600">{build.description}</p>
-                        </div>
-                        <div className={`w-3 h-3 rounded-full ${
-                          build.quality === 'strong' ? 'bg-green-500' :
-                          build.quality === 'medium' ? 'bg-yellow-500' : 'bg-red-500'
-                        }`}></div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-                <button
-                  onClick={() => setShowNodeOptions(false)}
-                  className="mt-4 w-full px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200"
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Bottom half - Weak Points and Summary */}
