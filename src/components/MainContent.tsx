@@ -2,7 +2,7 @@
 import React from 'react';
 import { FileText, Clock, User } from 'lucide-react';
 import { Scale } from 'lucide-react';
-import Builds from './Builds';
+import { Link } from 'react-router-dom';
 
 interface MainContentProps {
   selectedItem: string | null;
@@ -16,9 +16,13 @@ const MainContent: React.FC<MainContentProps> = ({ selectedItem, selectedItemNam
         {/* Header with Side 1 // Side 2 */}
         <div className="border-b border-gray-200 px-6 py-3 bg-gray-50">
           <div className="flex items-center justify-center">
-            <span className="text-sm font-medium text-gray-700">Side 1</span>
+            <Link to="/side1" className="text-sm font-medium text-gray-700 hover:text-green-700 transition-colors">
+              Side 1
+            </Link>
             <Scale className="w-5 h-5 mx-4 text-gray-600" />
-            <span className="text-sm font-medium text-gray-700">Side 2</span>
+            <Link to="/side2" className="text-sm font-medium text-gray-700 hover:text-green-700 transition-colors">
+              Side 2
+            </Link>
           </div>
         </div>
 
@@ -29,7 +33,7 @@ const MainContent: React.FC<MainContentProps> = ({ selectedItem, selectedItemNam
             <div className="text-center">
               <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-gray-900 mb-2">
-                Welcome to Legal Index
+                Welcome to LAWGIC
               </h3>
               <p className="text-gray-500 max-w-sm">
                 Select a document or case from the sidebar to view its contents and start working.
@@ -61,9 +65,13 @@ const MainContent: React.FC<MainContentProps> = ({ selectedItem, selectedItemNam
       {/* Header with Side 1 // Side 2 */}
       <div className="border-b border-gray-200 px-6 py-3 bg-gray-50">
         <div className="flex items-center justify-center">
-          <span className="text-sm font-medium text-gray-700">Side 1</span>
+          <Link to="/side1" className="text-sm font-medium text-gray-700 hover:text-green-700 transition-colors">
+            Side 1
+          </Link>
           <Scale className="w-5 h-5 mx-4 text-gray-600" />
-          <span className="text-sm font-medium text-gray-700">Side 2</span>
+          <Link to="/side2" className="text-sm font-medium text-gray-700 hover:text-green-700 transition-colors">
+            Side 2
+          </Link>
         </div>
       </div>
 
