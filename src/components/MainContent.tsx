@@ -19,7 +19,9 @@ const MainContent: React.FC<MainContentProps> = ({ selectedItem, selectedItemNam
             <Link to="/side1" className="text-sm font-medium text-gray-700 hover:text-green-700 transition-colors">
               Side 1
             </Link>
-            <Scale className="w-5 h-5 mx-4 text-gray-600" />
+            <Link to="/debate" className="mx-4">
+              <Scale className="w-5 h-5 text-gray-600 hover:text-green-600 transition-colors cursor-pointer" />
+            </Link>
             <Link to="/side2" className="text-sm font-medium text-gray-700 hover:text-green-700 transition-colors">
               Side 2
             </Link>
@@ -68,7 +70,9 @@ const MainContent: React.FC<MainContentProps> = ({ selectedItem, selectedItemNam
           <Link to="/side1" className="text-sm font-medium text-gray-700 hover:text-green-700 transition-colors">
             Side 1
           </Link>
-          <Scale className="w-5 h-5 mx-4 text-gray-600" />
+          <Link to="/debate" className="mx-4">
+            <Scale className="w-5 h-5 text-gray-600 hover:text-green-600 transition-colors cursor-pointer" />
+          </Link>
           <Link to="/side2" className="text-sm font-medium text-gray-700 hover:text-green-700 transition-colors">
             Side 2
           </Link>
